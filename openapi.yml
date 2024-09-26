@@ -1,0 +1,258 @@
+openapi: 3.0.0
+info:
+  title: PM2 Manager API
+  version: '1.0.0'
+  description: API to manage processes with PM2
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /processes:
+    get:
+      summary: List all processes managed by PM2
+      responses:
+        '200':
+          description: Successfully retrieved list of processes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Processes retrieved successfully
+                  data:
+                    type: array
+                    items:
+                      type: object
+        '500':
+          description: Error listing processes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Error listing processes
+
+  /start:
+    post:
+      summary: Start a new application
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                script:
+                  type: string
+                params:
+                  type: array
+                  items:
+                    type: string
+                name:
+                  type: string
+                  description: Optional name of the process. If not provided, a UUID will be generated.
+      responses:
+        '200':
+          description: Process started successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Process started successfully
+                  data:
+                    type: object
+        '500':
+          description: Error starting the process
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Error starting the process
+
+  /stop:
+    post:
+      summary: Stop an application using UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+      responses:
+        '200':
+          description: Process stopped successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Process stopped successfully
+                  data:
+                    type: object
+        '500':
+          description: Error stopping the process
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Error stopping the process
+
+  /restart:
+    post:
+      summary: Restart an application using UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+      responses:
+        '200':
+          description: Process restarted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Process restarted successfully
+                  data:
+                    type: object
+        '500':
+          description: Error restarting the process
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Error restarting the process
+
+  /status/{uuid}:
+    get:
+      summary: Monitor the status of a process using UUID
+      parameters:
+        - in: path
+          name: uuid
+          required: true
+          description: UUID of the process
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Process description retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Process status retrieved successfully
+                  data:
+                    type: object
+        '500':
+          description: Error retrieving process status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Error retrieving process status
+
+  /delete:
+    post:
+      summary: Delete an application using UUID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uuid:
+                  type: string
+                  description: UUID of the process to be deleted
+      responses:
+        '200':
+          description: Process deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  message:
+                    type: string
+                    example: Process deleted successfully
+                  data:
+                    type: object
+        '500':
+          description: Error deleting the process
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: error
+                  message:
+                    type: string
+                    example: Error deleting the process
